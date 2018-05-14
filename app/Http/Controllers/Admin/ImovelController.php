@@ -37,7 +37,7 @@ class ImovelController extends Controller
             $registro->endereco = $dados['endereco'];
             $registro->cep = $dados['cep'];
             $registro->valor = $dados['valor'];
-            $registro->dormitorio = $dados['dormitorio'];
+            $registro->dormitorios = $dados['dormitorios'];
             $registro->detalhes = $dados['detalhes'];
             $registro->visualizacoes = 0;
             $registro->publicar = $dados['publicar'];

@@ -74,7 +74,7 @@
 </div>
 
 <div class="input-field col s12">
-	<input type="text" name="valor" class="validate" value="{{ (isset($registro->valor) ? $registro->valor : '') }}">
+	<input type="text" name="valor" class="validate"  value="{{ (isset($registro->valor) ? $registro->valor : '') }}" ">
 	<label for="">Valor (Ex: 234.90)</label>
 	
 </div>
