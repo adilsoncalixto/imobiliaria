@@ -14,8 +14,8 @@
         <li><a class="dropdown-button" href="#!" data-activates="dropdown">{{ Auth::user()->name }}<i class="material-icons right">arrow_drop_down</i></a></li>
           <ul id="dropdown" class="dropdown-content">
             <li><a href="#!">{{ Auth::user()->name }}</a></li>
-            <li><a href="{{ route('admin.tipos') }}">Tipos</a></li>
             <li><a href="{{ route('admin.imoveis') }}">Imóveis</a></li>
+            <li><a href="{{ route('admin.tipos') }}">Tipos</a></li>
             <li><a href="{{ route('admin.cidades') }}">Cidades</a></li>
             <li><a href="{{ route('admin.usuarios') }}">Usuários</a></li>
             <li><a href="{{ route('admin.paginas') }}">Páginas</a></li>
@@ -31,8 +31,8 @@
             <li><a href="{{ route('admin.login') }}">Login</a></li>
             @else
             <li><a href="#">{{ Auth::user()->name }}</a></li>
-            <li><a href="{{ route('admin.tipos') }}">Tipos</a></li>
             <li><a href="{{ route('admin.imoveis') }}">Imóveis</a></li>
+            <li><a href="{{ route('admin.tipos') }}">Tipos</a></li>
             <li><a href="{{ route('admin.cidades') }}">Cidades</a></li>
             <li><a href="{{ route('admin.usuarios') }}">Usuários</a></li>
             <li><a href="{{ route('admin.paginas') }}">Páginas</a></li>

@@ -15,8 +15,7 @@ class ImovelController extends Controller
     
 	 public function index(){
             $registros = Imovel::all();
-            //dd($usuarios);
-            //
+
             return view('admin.imoveis.index', compact('registros'));
         }
 
@@ -28,11 +27,12 @@ class ImovelController extends Controller
         }
 
         public function salvar(Request $request){
+
             $dados = $request->all();
-            //dd($dados['name']);
             $registro = new Imovel();
             $registro->titulo = $dados['titulo'];
             $registro->descricao = $dados['descricao'];
+            $registro->status = $dados['status'];
             $registro->status = $dados['status'];
             $registro->endereco = $dados['endereco'];
             $registro->cep = $dados['cep'];
@@ -57,7 +57,7 @@ class ImovelController extends Controller
 	    		$ext = $file->guessClientExtension();
 	    		$nomeArquivo = "_img_" . $rand. ".".$ext;
 	    		$file->move($diretorio, $nomeArquivo);
-	    		$registro->imagem=$diretorio.'/'.$nomeArquivo;
+	    		$registro->imagem = $diretorio.'/'.$nomeArquivo;
     		}
             
             $registro->save();
@@ -70,6 +70,7 @@ class ImovelController extends Controller
         }
 
         public function editar($id){
+
             $registro = Imovel::find($id);
 
             $tipos = Tipo::all();
@@ -85,6 +86,7 @@ class ImovelController extends Controller
             
             $registro->titulo = $dados['titulo'];
             $registro->descricao = $dados['descricao'];
+            $registro->status = $dados['status'];
             $registro->status = $dados['status'];
             $registro->endereco = $dados['endereco'];
             $registro->cep = $dados['cep'];

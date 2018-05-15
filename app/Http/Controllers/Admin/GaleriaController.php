@@ -9,100 +9,98 @@ use App\Http\Controllers\Controller;
 use App\Galeria;
 use App\Imovel;
 
+
+
 class GaleriaController extends Controller
 {
     public function index($id){
     	$imovel = Imovel::find($id);
-    	$registros = $imovel->galeria()->orderBy('ordem','asc')->get();
-            
+    	$registros = $imovel->galeria()->orderBy('ordem')->get();
+
             return view('admin.galerias.index', compact('registros','imovel'));
         }
 
-        public function adicionar(){
-        	$tipos = Tipo::all();
-        	$cidades = Cidade::all();
+        public function adicionar($id){
+        	$imovel = Imovel::find($id);
 
-            return view('admin.imoveis.adicionar', compact('tipos','cidades'));
+            return view('admin.galerias.adicionar', compact('imovel'));
         }
 
-        public function salvar(Request $request){
+        public function salvar(Request $request, $id){
+
+        	$imovel = Imovel::find($id);
+
             $dados = $request->all();
-            //dd($dados['name']);
-            $registro = new Imovel();
-            $registro->titulo = $dados['titulo'];
-            $registro->descricao = $dados['descricao'];
-            $registro->status = $dados['status'];
-            $registro->endereco = $dados['endereco'];
-            $registro->cep = $dados['cep'];
-            $registro->valor = $dados['valor'];
-            $registro->dormitorios = $dados['dormitorios'];
-            $registro->detalhes = $dados['detalhes'];
-            $registro->visualizacoes = 0;
-            $registro->publicar = $dados['publicar'];
-            if(isset($dados['mapa']) && trim($dados['mapa']) != ""){
-            	$registro->mapa = trim($dados['mapa']);
+
+
+            if($imovel->galeria()->count()){
+            	$galeria = $imovel->galeria()->orderBy('ordem','desc')->first();
+            	$orderAtual = $galeria->ordem;
             }else{
-            	$registro->mapa = null;
+            	$ordemAtual = 0;
+            }
+            
+
+            if($request->hasFile('imagens')){
+            	$arquivos = $request->file('imagens');
+            	foreach ($arquivos as $imagem) {
+
+                    $registro = new Galeria();
+
+                    $rand = rand(11111,99999);
+                    $diretorio = "img/imoveis/" . str_slug($imovel->titulo,'_'). "/";
+                    $ext = $imagem->guessClientExtension();
+                    $nomeArquivo = "_img_" . $rand. ".".$ext;
+                    $imagem->move($diretorio, $nomeArquivo);
+                    $registro->imovel_id = $imovel->id;
+
+                     $registro->ordem = $ordemAtual + 1;
+                     $ordemAtual++;
+
+                    $registro->imagem=$diretorio.'/'.$nomeArquivo;
+
+            		
+                    $registro->imovel_id = $imovel->id;
+                    $registro->imagem=$diretorio.'/'.$nomeArquivo;
+
+            		
+
+		    			$registro->save();
+
+            	}
             }
 
-            $registro->cidade_id = $dados['cidade_id'];
-            $registro->tipo_id = $dados['tipo_id'];
 
-            $file = $request->file('imagem');
-            if($file){
-	    		$rand = rand(11111,99999);
-	    		$diretorio = "img/imoveis/" . str_slug($dados['titulo'],'_'). "/";
-	    		$ext = $file->guessClientExtension();
-	    		$nomeArquivo = "_img_" . $rand. ".".$ext;
-	    		$file->move($diretorio, $nomeArquivo);
-	    		$registro->imagem=$diretorio.'/'.$nomeArquivo;
-    		}
-            
-            $registro->save();
 
             \Session::flash('mensagem',['msg'=>'Registro gravado com sucesso','class'=>'green white-text']);
 
-            return redirect()->route('admin.imoveis');
+            return redirect()->route('admin.galerias',$imovel->id);
             
 
         }
 
         public function editar($id){
-            $registro = Imovel::find($id);
+            $registro = Galeria::find($id);
+            $imovel = $registro->imovel;
 
-            $tipos = Tipo::all();
-            $cidades = Cidade::all();
-
-            return view('admin.imoveis.editar', compact('registro','tipos','cidades'));
+            return view('admin.galerias.editar', compact('registro','imovel'));
 
         }
 
          public function atualizar(Request $request, $id){
-            $registro = Imovel::find($id);
+            $registro = Galeria::find($id);
             $dados = $request->all();
             
             $registro->titulo = $dados['titulo'];
             $registro->descricao = $dados['descricao'];
-            $registro->status = $dados['status'];
-            $registro->endereco = $dados['endereco'];
-            $registro->cep = $dados['cep'];
-            $registro->valor = $dados['valor'];
-            $registro->dormitorios = $dados['dormitorios'];
-            $registro->detalhes = $dados['detalhes'];
-            $registro->publicar = $dados['publicar'];
-            if(isset($dados['mapa']) && trim($dados['mapa']) != ""){
-            	$registro->mapa = trim($dados['mapa']);
-            }else{
-            	$registro->mapa = null;
-            }
+            $registro->ordem = $dados['ordem'];
 
-            $registro->cidade_id = $dados['cidade_id'];
-            $registro->tipo_id = $dados['tipo_id'];
+            $imovel = $registro->imovel;
 
             $file = $request->file('imagem');
             if($file){
 	    		$rand = rand(11111,99999);
-	    		$diretorio = "img/imoveis/" . str_slug($dados['titulo'],'_'). "/";
+	    		$diretorio = "img/imoveis/" . str_slug($imovel->titulo,'_'). "/";
 	    		$ext = $file->guessClientExtension();
 	    		$nomeArquivo = "_img_" . $rand. ".".$ext;
 	    		$file->move($diretorio, $nomeArquivo);
@@ -113,13 +111,15 @@ class GaleriaController extends Controller
 
             \Session::flash('mensagem',['msg'=>'Registro atualizado com sucesso','class'=>'green white-text']);
 
-            return redirect()->route('admin.imoveis');
+            return redirect()->route('admin.galerias',$imovel->id);
         }
 
         public function deletar($id){
+            $galeria = Galeria::find($id);
+            $imovel = $galeria->imovel;
            
-            Imovel::find($id)->delete();
+            $galeria->delete();
             \Session::flash('mensagem',['msg'=>'Registro deletado com sucesso','class'=>'green white-text']);
-            return redirect()->route('admin.imoveis');
+            return redirect()->route('admin.galerias',$imovel->id);
         }
 }

@@ -57,6 +57,7 @@ class TipoController extends Controller
 
         public function deletar($id){
 
+
             if(Imovel::where('tipo_id','=',$id)->count()){
 
                 $msg = "Não é possível deletar esse tipo de imóvel! Esses imóveis(";
@@ -70,6 +71,7 @@ class TipoController extends Controller
                 \Session::flash('mensagem',['msg'=>$msg,'class'=>'red white-text']);
                 return redirect()->route('admin.tipos');
             }
+            
 
             Tipo::find($id)->delete();
             \Session::flash('mensagem',['msg'=>'Registro deletado com sucesso','class'=>'green white-text']);

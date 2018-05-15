@@ -34,11 +34,12 @@
 					<td>{{ $registro->id }}</td>
 					<td>{{ $registro->titulo }}</td>
 					<td>{{ $registro->descricao }}</td>
-					<td><img width="100" src="{{ asset($registro->imagem) }}" alt=""></td>
+					<td><img width="100" src="{{ asset($registro->imagem) }}"></td>
 					<td>{{ $registro->ordem }}</td>
 					<td>
 
 						<a class="btn orange" href="{{ route('admin.galerias.editar', $registro->id)}}">Editar</a>
+						
 						<a class="btn red" href="Javascript: if(confirm('Deletar esse registro?')){
 						window.location.href='{{ route('admin.galerias.deletar', $registro->id) }} '}">Deletar</a>
 					</td>
