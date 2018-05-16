@@ -6,139 +6,30 @@
 </div>
 
 <div class="row section">
+	@foreach($imoveis as $imovel)
 	<div class="col s12 m3">
 		<div class="card">
 			<div class="car-image">
-				<a href="#"><img src="{{ asset('img/casa_projeto.jpg') }}" alt="imagem"></a>
+				<a href="{{ route('site.imovel', [$imovel->id, str_slug($imovel->titulo,'_') ]) }}"><img src="{{ asset($imovel->imagem) }}" alt="{{ $imovel->titulo }}"></a>
 			</div>
 			<div class="card-content">
-				<p><b class="deep-orange-text darken-1">Vende</b></p>
-				<p><b>Título do Imóvel</b></p>
-				<p>Descrição do Imóvel</p>
-				<p>R$ 200.000,00</p>
+				<p><b class="deep-orange-text darken-1">{{ $imovel->status }}</b></p>
+				<p><b>{{ $imovel->titulo }}</b></p>
+				<p>{{ $imovel->descricao }}</p>
+				<p>R$ {{  $imovel->valor }}</p>
 			</div>
 			<div class="card-action">
-				<a href="#">Ver Mais...</a>
+				<a href="{{ route('site.imovel', [$imovel->id, str_slug($imovel->titulo,'_') ]) }}">Ver Mais...</a>
 			</div>
 		</div>
 	</div>
 
-	<div class="col s12 m3">
-		<div class="card">
-			<div class="car-image">
-				<a href="#"><img src="{{ asset('img/casa_projeto.jpg') }}" alt="imagem"></a>
-			</div>
-			<div class="card-content">
-				<p><b class="deep-orange-text darken-1">Vende</b></p>
-				<p><b>Título do Imóvel</b></p>
-				<p>Descrição do Imóvel</p>
-				<p>R$ 200.000,00</p>
-			</div>
-			<div class="card-action">
-				<a href="#">Ver Mais...</a>
-			</div>
-		</div>
-	</div>
+@endforeach
 
-	<div class="col s12 m3">
-		<div class="card">
-			<div class="car-image">
-				<a href="#"><img src="{{ asset('img/casa_projeto.jpg') }}" alt="imagem"></a>
-			</div>
-			<div class="card-content">
-				<p><b class="deep-orange-text darken-1">Vende</b></p>
-				<p><b>Título do Imóvel</b></p>
-				<p>Descrição do Imóvel</p>
-				<p>R$ 200.000,00</p>
-			</div>
-			<div class="card-action">
-				<a href="#">Ver Mais...</a>
-			</div>
-		</div>
-	</div>
 
-	<div class="col s12 m3">
-		<div class="card">
-			<div class="car-image">
-				<a href="#"><img src="{{ asset('img/casa_projeto.jpg') }}" alt="imagem"></a>
-			</div>
-			<div class="card-content">
-				<p><b class="deep-orange-text darken-1">Vende</b></p>
-				<p><b>Título do Imóvel</b></p>
-				<p>Descrição do Imóvel</p>
-				<p>R$ 200.000,00</p>
-			</div>
-			<div class="card-action">
-				<a href="#">Ver Mais...</a>
-			</div>
-		</div>
-	</div>
-
-	<div class="col s12 m3">
-		<div class="card">
-			<div class="car-image">
-				<a href="#"><img src="{{ asset('img/casa_projeto.jpg') }}" alt="imagem"></a>
-			</div>
-			<div class="card-content">
-				<p><b class="deep-orange-text darken-1">Vende</b></p>
-				<p><b>Título do Imóvel</b></p>
-				<p>Descrição do Imóvel</p>
-				<p>R$ 200.000,00</p>
-			</div>
-			<div class="card-action">
-				<a href="#">Ver Mais...</a>
-			</div>
-		</div>
-	</div>
-
-	<div class="col s12 m3">
-		<div class="card">
-			<div class="car-image">
-				<a href="#"><img src="{{ asset('img/casa_projeto.jpg') }}" alt="imagem"></a>
-			</div>
-			<div class="card-content">
-				<p><b class="deep-orange-text darken-1">Vende</b></p>
-				<p><b>Título do Imóvel</b></p>
-				<p>Descrição do Imóvel</p>
-				<p>R$ 200.000,00</p>
-			</div>
-			<div class="card-action">
-				<a href="#">Ver Mais...</a>
-			</div>
-		</div>
-	</div>
-
-	<div class="col s12 m3">
-		<div class="card">
-			<div class="car-image">
-				<a href="#"><img src="{{ asset('img/casa_projeto.jpg') }}" alt="imagem"></a>
-			</div>
-			<div class="card-content">
-				<p><b class="deep-orange-text darken-1">Vende</b></p>
-				<p><b>Título do Imóvel</b></p>
-				<p>Descrição do Imóvel</p>
-				<p>R$ 200.000,00</p>
-			</div>
-			<div class="card-action">
-				<a href="#">Ver Mais...</a>
-			</div>
-		</div>
-	</div>
-
-	<div class="col s12 m3">
-		<div class="card">
-			<div class="car-image">
-				<a href="#"><img src="{{ asset('img/casa_projeto.jpg') }}" alt="imagem"></a>
-			</div>
-			<div class="card-content">
-				<p><b class="deep-orange-text darken-1">Vende</b></p>
-				<p><b>Título do Imóvel</b></p>
-				<p>Descrição do Imóvel</p>
-				<p>R$ 200.000,00</p>
-			</div>
-			<div class="card-action">
-				<a href="#">Ver Mais...</a>
-			</div>
-		</div>
-	</div>
 </div>
+
+<div align="center" class="row">
+	{{ $imoveis->links() }}
+</div>
+
