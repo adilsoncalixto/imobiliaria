@@ -13,7 +13,7 @@
 			<div class="row">
 				<div class="slider">
 					<ul class="slides">
-						@foreach($imovel->galeria as $imagem)
+						@foreach($galeria as $imagem)
 						<li>
 							<img src="{{ asset($imagem->imagem) }}" alt="">
 							<div class="caption {{ $direcaoImagem[rand(0,2)] }}">
